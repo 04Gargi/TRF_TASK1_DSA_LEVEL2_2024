@@ -1,0 +1,102 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdlib.h>
+
+int carry = 0;
+int sum = 0;
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+}Node;
+
+void printList(Node *phead){
+    int data;
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (phead == NULL) {
+        return;
+    }
+    while (phead != NULL) {
+        printf("->%d", phead->data);
+        phead = phead->next;
+    }
+}
+
+void enterNode(Node **phead, int data){
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (*phead == NULL) {
+        *phead = new_node;
+    } else {
+        Node *temp = *phead;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = new_node;
+    }
+}
+
+Node* addNodes(Node* A,Node* B){
+    Node *add = NULL;
+    Node **temp = &add;
+    
+    while (A != NULL || B != NULL || carry) {
+        sum = carry;
+        if (A != NULL) {
+            sum = sum + A->data;
+            A = A->next;
+        }
+        if (B != NULL) {
+            sum = sum + B->data;
+            B = B->next;
+        }
+        carry = sum / 10;
+        sum = sum % 10;
+
+        *temp = (Node*)malloc(sizeof(Node));
+        (*temp)->data = sum;
+        (*temp)->next = NULL;
+        temp = &((*temp)->next);
+     }return add;
+}
+
+int main() {
+    // Write C code here
+    Node *l1 = NULL, *l2 = NULL;
+    int a, b, e, f;
+    
+    printf("\nEnter size for list 1:");
+    scanf("%d",&a);
+    printf("\nEnter data for list 1:");
+    for(int i=0;i<a;i++){
+        printf("\nEnter value %d: ",i+1);
+        scanf("%d", &e);
+        enterNode(&l1, e);
+    }
+
+    printf("\nEnter size for list 2:");
+    scanf("%d",&b);
+    printf("\nEnter data for list 2:");
+    for(int i=0;i<b;i++){
+        printf("\nEnter value %d: ",i+1);
+        scanf("%d", &f);
+        enterNode(&l2, f);
+    }
+
+    Node *add = addNodes(l1, l2);
+
+    printf("\nList 1:");
+    printList(l1);
+
+    printf("\nList 2:");
+    printList(l2);
+
+    printf("\nSum List:");
+    printList(add);
+    return 0;
+}
