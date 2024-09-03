@@ -95,6 +95,11 @@ Node* sum(Node* l1, Node* l2)
             last->next = newNode;
         }
         last = newNode;
+        if (carry > 0)
+    {
+        Node* newNode = createNode(carry);
+        last->next = newNode;
+    }
     }
     return result;
 }
